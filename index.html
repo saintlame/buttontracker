@@ -190,7 +190,7 @@
     function updateLogWindow() {
         const logWindow = document.getElementById('logWindow');
         const currentTime = new Date().toLocaleTimeString();
-        logWindow.innerHTML = `<p>Last Pressed At: ${currentTime}</p>`;
+        logWindow.innerHTML = `<p>Last Clicked At: ${currentTime}</p>`;
     }
 
     function updateHistory() {
@@ -200,7 +200,7 @@
         historyDropdown.innerHTML = '<p>History Log:</p>';
         historyLog.forEach((entry, index) => {
             const formattedTime = entry.lastPressedAt === "Reset" ? "Reset" : new Date(entry.lastPressedAt).toLocaleString();
-            historyDropdown.innerHTML += `<p>${formattedTime}: Press Count - ${entry.count}</p>`;
+            historyDropdown.innerHTML += `<p>${formattedTime}: Click Count - ${entry.count}</p>`;
         });
     }
 
@@ -214,7 +214,7 @@
     }
 
     function clearHistoryLog() {
-        count = 0;  // Reset press count
+        count = 0;  // Reset click count
         historyLog = [];
         const historyDropdown = document.getElementById('historyDropdown');
         historyDropdown.innerHTML = '<p>History Log:</p>';
@@ -260,7 +260,7 @@
             currentTime.style.display = 'block'; // Show Current Time
         }
 
-        pressCount.innerText = `Press Count: ${count}`;
+        pressCount.innerText = `Click Count: ${count}`;
     }
 
     function startTimer() {
