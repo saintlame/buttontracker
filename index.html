@@ -2,291 +2,37 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Simple Click Counter</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap">
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            height: 100vh;
-            margin: 0;
-            color: #333;
-            font-family: 'Raleway', sans-serif;
-            background-image: url('https://i.imgur.com/ZPAi1JM.png'); /* Replace with your Imgur URL */
-            background-size: cover;
-            padding: 20px;
-        }
-
-        button {
-            font-size: 28px;
-            padding: 30px;
-            background-color: #4CAF50;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: transform 0.3s ease-in-out;
-        }
-
-        button:hover {
-            transform: scale(1.05);
-        }
-
-        #countContainer {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 10px;
-            padding: 20px;
-            margin-top: 20px;
-        }
-
-        #pressCount {
-            font-size: 28px;
-            margin-bottom: 10px;
-            transition: transform 0.3s ease-in-out;
-        }
-
-        #logWindow {
-            font-size: 16px;
-            overflow-y: scroll;
-            max-height: 200px;
-            background-color: rgba(255, 255, 255, 0.8);
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-
-        #resetButton, #toggleHistory, #clearLogButton {
-            font-size: 18px;
-            padding: 10px;
-            cursor: pointer;
-            border-radius: 5px;
-            background-color: #008CBA;
-            color: #fff;
-            margin-bottom: 10px;
-        }
-
-        #resetButton {
-            background-color: #f44336;
-            margin-right: 10px;
-        }
-
-        #historyContainer {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        #historyDropdown {
-            display: none;
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 5px;
-            padding: 10px;
-            max-height: 200px;
-            overflow-y: scroll;
-        }
-
-        #historyDropdown p {
-            font-size: 14px;
-            margin: 5px 0;
-        }
-
-        #clearLogButton {
-            font-size: 18px;
-            padding: 10px;
-            cursor: pointer;
-            border-radius: 5px;
-            background-color: #f44336;
-            color: #fff;
-        }
-
-        #popup {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: #fff;
-            text-align: center;
-            font-size: 24px;
-            font-weight: 300;
-        }
-
-        #popup p {
-            font-weight: bold;
-        }
-
-        #popup .graphic {
-            margin-top: 20px;
-        }
-
-        #timeElapsed {
-            font-size: 20px;
-            margin-top: 10px;
-            color: #333;
-            transition: transform 0.3s ease-in-out;
-            display: none;
-        }
-
-        #currentTime {
-            font-size: 20px;
-            margin-top: 10px;
-            color: #333;
-            transition: transform 0.3s ease-in-out;
-            display: none;
-        }
-    </style>
+    <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
+  <header>
+    <div>
+      <h1>
+        Simple
+      </h1>
+      <h2>
+        CLICK COUNTER
+      </h2>
+    </div>
+  </header>
+  <div class="container">
+    <div id="countContainer">
+        <button id="counterButton" onclick="confirmButtonClick()">Press Me</button>
+        <div id="pressCount">Press Count: 0</div>
+        <div id="logWindow"></div>
+        <button id="resetButton" onclick="resetCounter()">Reset</button>
+    </div>
 
-<div id="countContainer">
-    <button id="counterButton" onclick="confirmButtonClick()">Press Me</button>
-    <div id="pressCount">Press Count: 0</div>
-    <div id="logWindow"></div>
-</div>
+    <div id="historyContainer">
+        <button id="toggleHistory" onclick="toggleHistory()">Toggle History</button>
+        <div id="historyDropdown"></div>
+        <button id="clearLogButton" onclick="clearHistoryLog()">Clear Log</button>
+    </div>
+  </div>
 
-<button id="resetButton" onclick="resetCounter()">Reset</button>
-
-<div id="historyContainer">
-    <button id="toggleHistory" onclick="toggleHistory()">Toggle History</button>
-    <div id="historyDropdown"></div>
-    <button id="clearLogButton" onclick="clearHistoryLog()">Clear Log</button>
-</div>
-
-<script>
-    let count = 0;
-    let historyLog = [];
-    let lastPressTime = null;
-    let timerInterval;
-
-    function confirmButtonClick() {
-        const currentTime = new Date().getTime();
-        const timeSinceLastPress = lastPressTime ? currentTime - lastPressTime : 0;
-
-        handleButtonClick(timeSinceLastPress);
-        lastPressTime = currentTime;
-    }
-
-    function handleButtonClick(timeSinceLastPress) {
-        count++;
-        logButtonClick();
-        updateLogWindow();
-        updateHistory();
-        animateButton();
-        updatePressCount(timeSinceLastPress);
-        startTimer();
-    }
-
-    function logButtonClick() {
-        const currentTime = new Date().toLocaleString();
-        console.log(`Button pressed ${count} times at ${currentTime}`);
-    }
-
-    function updateLogWindow() {
-        const logWindow = document.getElementById('logWindow');
-        const currentTime = new Date().toLocaleTimeString();
-        logWindow.innerHTML = `<p>Last Pressed At: ${currentTime}</p>`;
-    }
-
-    function updateHistory() {
-        const historyDropdown = document.getElementById('historyDropdown');
-        const currentTime = new Date().toLocaleString();
-        historyLog.push({ count, lastPressedAt: currentTime });
-        historyDropdown.innerHTML = '<p>History Log:</p>';
-        historyLog.forEach((entry, index) => {
-            const formattedTime = entry.lastPressedAt === "Reset" ? "Reset" : new Date(entry.lastPressedAt).toLocaleString();
-            historyDropdown.innerHTML += `<p>${formattedTime}: Press Count - ${entry.count}</p>`;
-        });
-    }
-
-    function resetCounter() {
-        count = 0;
-        updateLogWindow();
-        updateHistory();
-        animateButton();
-        updatePressCount(0); // Reset time elapsed
-        resetTimer();
-    }
-
-    function clearHistoryLog() {
-        count = 0;  // Reset press count
-        historyLog = [];
-        const historyDropdown = document.getElementById('historyDropdown');
-        historyDropdown.innerHTML = '<p>History Log:</p>';
-    }
-
-    function toggleHistory() {
-        const historyDropdown = document.getElementById('historyDropdown');
-        historyDropdown.style.display = historyDropdown.style.display === 'block' ? 'none' : 'block';
-    }
-
-    function animateButton() {
-        const button = document.getElementById('counterButton');
-        const pressCount = document.getElementById('pressCount');
-
-        // Apply animation to the button
-        button.style.transform = 'scale(1.1)';
-        setTimeout(() => {
-            button.style.transform = 'scale(1)';
-        }, 300);
-
-        // Apply animation to the Press Count
-        setTimeout(() => {
-            pressCount.style.transform = 'scale(1.1)';
-            setTimeout(() => {
-                pressCount.style.transform = 'scale(1)';
-            }, 300);
-        }, 150);
-    }
-
-    function updatePressCount(timeSinceLastPress) {
-        const pressCount = document.getElementById('pressCount');
-        const timeElapsed = document.getElementById('timeElapsed');
-        const currentTime = document.getElementById('currentTime');
-
-        if (timeElapsed) {
-            timeElapsed.innerText = `Time Elapsed: ${formatTime(timeSinceLastPress)}`;
-            timeElapsed.style.display = 'block'; // Show Time Elapsed
-        }
-
-        if (currentTime) {
-            const currentDateTime = new Date().toLocaleTimeString();
-            currentTime.innerText = `Last Pressed At: ${currentDateTime}`;
-            currentTime.style.display = 'block'; // Show Current Time
-        }
-
-        pressCount.innerText = `Press Count: ${count}`;
-    }
-
-    function startTimer() {
-        let seconds = 1; // Start from 1 second
-        const timeElapsed = document.getElementById('timeElapsed');
-        timerInterval = setInterval(() => {
-            timeElapsed.innerText = `Time Elapsed: ${formatTime(seconds * 1000)}`;
-            seconds++;
-        }, 1000);
-    }
-
-    function resetTimer() {
-        clearInterval(timerInterval);
-    }
-
-    function formatTime(milliseconds) {
-        const totalSeconds = Math.floor(milliseconds / 1000);
-        const minutes = Math.floor(totalSeconds / 60);
-        const seconds = totalSeconds % 60;
-        return `${pad(minutes)}:${pad(seconds)}`;
-    }
-
-    function pad(value) {
-        return value < 10 ? `0${value}` : value;
-    }
-</script>
-
+  <script src="js/script.js"></script>
 </body>
 </html>
