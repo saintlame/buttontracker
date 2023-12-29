@@ -1,0 +1,190 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  border: none;
+  outline: none;
+  scroll-behavior: smooth;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  height: 100vh;
+  background-color: #333;
+  color: #333;
+  font-family: 'Raleway', sans-serif;
+  background: url('https://i.imgur.com/W95LKnM.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center; 
+  background-size: cover;
+  padding: 20px;
+}
+
+header{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40%;
+}
+
+h1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 5rem;
+}
+
+h2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3rem;
+}
+
+.container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+button {
+  font-size: 28px;
+  padding: 30px;
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: transform 0.3s ease-in-out;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+#countContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.8);
+  box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+  border-radius: 10px;
+  padding: 4rem;
+  margin: 1rem;
+}
+
+#pressCount {
+  font-size: 28px;
+  margin-bottom: 10px;
+  transition: transform 0.3s ease-in-out;
+}
+
+#logWindow {
+  font-size: 16px;
+  overflow-y: none;
+  max-height: 200px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 5px;
+}
+
+#resetButton, #toggleHistory, #clearLogButton {
+  font-size: 18px;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  background-color: #008CBA;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+#resetButton {
+  background-color: #f44336;
+  margin: .5rem;
+}
+
+#historyContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#historyDropdown {
+  display: none;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 5px;
+  padding: 10px;
+  max-height: 200px;
+  overflow-y: scroll;
+}
+
+#historyDropdown p {
+  font-size: 14px;
+  margin: 5px 0;
+}
+
+#clearLogButton {
+  font-size: 18px;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  background-color: #f44336;
+  color: #fff;
+}
+
+#popup {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 300;
+}
+
+#popup p {
+  font-weight: bold;
+}
+
+#popup .graphic {
+  margin-top: 20px;
+}
+
+#timeElapsed {
+  font-size: 20px;
+  margin-top: 10px;
+  color: #333;
+  transition: transform 0.3s ease-in-out;
+  display: none;
+}
+
+#currentTime {
+  font-size: 20px;
+  margin-top: 10px;
+  color: #333;
+  transition: transform 0.3s ease-in-out;
+  display: none;
+}
+
+
+@media (max-width: 450px) {
+  html {
+      font-size: 70%;
+  }
+
+  .container {
+    flex-direction: column;
+  }
+
+  #historyContainer {
+    margin: 1.5rem;
+  }
+}
+
+@media (max-width: 365px) {
+
+}
